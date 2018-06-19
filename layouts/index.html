@@ -1,0 +1,550 @@
+<!doctype html>
+<html>
+   <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, user-scalable=no, minimal-ui">
+      <script>
+         function getReverseGeocodingData(lat, lng) {
+           var latlng = new google.maps.LatLng(lat, lng);
+           //Geocode request
+           var geocoder = new google.maps.Geocoder();
+           geocoder.geocode({ 'latLng': latlng }, function (results, status) {
+               if (status !== google.maps.GeocoderStatus.OK) {
+                   alert(status);
+               }
+               // Check Geocode status before proceeding
+               if (status == google.maps.GeocoderStatus.OK) {
+                   console.log(results);
+                   var address = (results[0].formatted_address);
+         				document.getElementById("addr").innerHTML = address;
+               }
+           });
+         }
+      </script>
+      <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+      <link href="https://fonts.googleapis.com/css?family=Lato:400,400i,700,700i,900,900i" rel="stylesheet">
+      <title>{{.Site.Data.resume.core.name}}</title>
+      <style>
+         body {
+         background: rgba(194, 185, 185, 0);
+         font-family: 'Lato', sans-serif;
+         letter-spacing: 0.02em;
+         word-wrap: break-word;
+         color: rgb(91, 100, 107);
+         line-height: 1.4;
+         margin: 50px 0 60px;
+         }
+         img {
+         max-width: 150px;
+         border-radius: 50%;
+         border: 1px solid #ddd;
+         height: 150px;
+         float: right;
+         }
+         h1, h2, h3, h4, h5 {
+         line-height: 1em;
+         margin: 0;
+         }
+         h1 {
+         color:rgb(35, 73, 100);
+         font-size: 2.4em;
+         font-weight: 900;
+         }
+         h2 {
+         margin-top: 10px;
+         font-weight: 900;
+         }
+         h3 {
+         font-size: 1.2em;
+         font-weight: 900;
+         }
+         h4 {
+         font-size: 1.1em;
+         margin-bottom: 0.3em;
+         }
+         p {
+         font-weight: 400;
+         font-size: 1em;
+         margin: 0;
+         line-height: 1.8em;
+         opacity: 0.8;
+         }
+         em {
+         opacity: 0.5;
+         }
+         p {
+         line-height: 1.4;
+         }
+         ul {
+         margin-bottom: 0;
+         }
+         section, #skills .item {
+         margin-bottom: 2em;
+         }
+         section > h3 {
+         width: 25%;
+         float: left;
+         color: rgb(50, 106, 146);
+         }
+         section > section {
+         width: 75%;
+         float: left;
+         }
+         blockquote {
+         margin: 0;
+         margin-bottom: 1em;
+         }
+         a {
+         font-size: 0.9em;
+         font-weight: 700;
+         opacity: 0.5;
+         color: rgb(51, 50, 31);
+         }
+         .divider {
+         height: 1px;
+         width: 100%;
+         background-color: rgba(0, 0, 0, 0.89);
+         }
+         .item {
+         margin-bottom: 3em;
+         }
+         .row:after {
+         content: ".";
+         display: block;
+         height: 0;
+         clear: both;
+         visibility: hidden;
+         }
+         #resume {
+         margin: 0 auto;
+         max-width: 690px;
+         padding: 0 50px;
+         }
+         #resume > section {
+         margin-bottom: -10px;
+         margin-top: 10px;
+         }
+         #resume > section:after {
+         content: ".";
+         display: block;
+         height: 0;
+         clear: both;
+         visibility: hidden;
+         }
+         .summary {
+         margin: 10px 0 50px;
+         font-style: italic;
+         }
+         #skills .keywords,
+         #languages > section,
+         #interests > section,
+         #profiles > section,
+         #contacts {
+         display: flex;
+         flex-wrap: wrap;
+         }
+         #education .institution,
+         #work .name,
+         #volunteer .name,
+         #awards .title,
+         #publications .name {
+         font-size: 1em;
+         font-weight: 900;
+         width: 65%;
+         float: left;
+         }
+         #education .area,
+         #education .studyType {
+         font-size: 0.9em;
+         font-weight: 400;
+         font-style: italic
+         }
+         #education .date,
+         #work .date,
+         #volunteer .date,
+         #awards .date,
+         #publications .date {
+         font-size: 0.7em;
+         letter-spacing: -0.02em;
+         font-weight: 400;
+         width: 35%;
+         float: right;
+         text-align: right;
+         }
+         #education .education-sub-info {
+         margin-top: 10px;
+         }
+         #education .education-sub-info span:not(:last-child):after {
+         margin: 0 5px;
+         content: "/";
+         }
+         #work .website,
+         #work .position,
+         #work .highlights,
+         #work .item > h5,
+         #volunteer .website,
+         #volunteer .position,
+         #volunteer .highlights,
+         #volunteer .item > h5,
+         #awards .awarder,
+         #publications .website,
+         #publications .publisher,
+         #skills .item .level,
+         #languages .item .fluency {
+         font-size: 0.9em;
+         }
+         #work .summary,
+         #awards .summary,
+         #volunteer .summary,
+         #publications .summary {
+         font-style: normal;
+         font-size: 0.8em;
+         margin: 10px 0;
+         }
+         #work .position,
+         #volunteer .position,
+         #awards .awarder,
+         #publications .publisher {
+         margin-top: 10px;
+         font-style: italic;
+         }
+         #work .highlights,
+         #volunteer .highlights {
+         display: flex;
+         flex-direction: row;
+         flex-wrap: wrap;
+         }
+         #work .highlights li,
+         #volunteer .highlights li {
+         font-size: 0.9em;
+         width: 45%;
+         margin-right: 5%;
+         }
+         #skills .keywords {
+         margin: 0;
+         padding: 0;
+         list-style: none;
+         font-size: 0.8em;
+         margin-top: 10px;
+         }
+         #skills .keywords li {
+         margin-right: 20px;
+         }
+         #skills .item .name,
+         #languages .item .language,
+         #profiles .item .network {
+         font-weight: 900;
+         }
+         #languages .item,
+         #profiles .item {
+         width: 33.3%;
+         margin-bottom: 10px;
+         }
+         #profiles .item .network {
+         font-size: 0.9em;
+         }
+         #profiles .item .url {
+         font-size: 0.8em;
+         }
+         #interests .name {
+         font-size: 0.9em;
+         font-style: italic;
+         margin-right: 7px;
+         }
+         #interests .name:not(:last-child):after {
+         content: ',';
+         margin-left: -3px;
+         }
+         #contacts .item {
+         flex: 1;
+         margin-bottom: 0;
+         }
+         #profiles, #skills {
+         overflow: hidden;
+         }
+         #contacts {
+         margin-left: 25%;
+         font-size: 0.8em;
+         }
+         #contacts .site {
+         align-self: flex-end;
+         text-align: right;
+         }
+         #contacts .site a {
+         color: rgb(35, 80, 92);
+         opacity: 1;
+         font-size: 1em;
+         font-weight: 900;
+         }
+         #contacts .location .block span:not(:last-child):after {
+         content: ', ';
+         }
+         #contacts .block {
+         display: block;
+         }
+         #references .item {
+         width: 45%;
+         float: left;
+         padding-right: 10%;
+         }
+         #references .item:last-child {
+         padding: 0;
+         }
+         #references .reference {
+         font-style: normal;
+         font-size: 0.7em;
+         margin: 10px 0;
+         font-style: italic;
+         }
+         #references .name {
+         font-weight: 900;
+         font-size: 0.8em;
+         }
+      </style>
+   </head>
+   <body>
+      <div id="resume">
+         <img class="site-avatar" src="{{.Site.Data.resume.core.image}}">	
+         <h1>{{.Site.Data.resume.core.name}}</h1>
+         <h2>{{.Site.Data.resume.core.title}}</h2>
+         <div class="summary">
+            <p>{{.Site.Data.resume.core.summary}}</p>
+         </div>
+         <section id="education">
+            {{ range $.Site.Data.resume.education}}
+            <h3>Education</h3>
+            <section class="item">
+               <div class="row">
+                  <div class="institution">
+                     {{print .institution}}
+                  </div>
+                  <div class="date">
+                     <span class="startDate">
+                     {{print .startDate}}
+                     </span>
+                     <span class="endDate">
+                     - {{print .endDate}}
+                     </span>
+                  </div>
+               </div>
+               <div class="row education-sub-info">
+                  <span class="area">
+                  {{print .area}}
+                  </span>
+                  <span class="studyType">
+                  {{print .studyType}}
+                  </span>
+                  <span class="score">
+                  {{print .score}}
+                  </span>
+               </div>
+               <ul class="courses">
+                  <li>{{print .courses}}</li>
+               </ul>
+            </section>
+         </section>
+         {{end}}
+         <section id="work">
+            <h3>Work</h3>
+            {{ range $.Site.Data.resume.work }}
+            <section>
+               <div class="item">
+                  <div class="row">
+                     <div class="name">
+                        {{ print .name ",  " }}{{ print .description  }}
+                     </div>
+                     <div class="date">
+                        <span class="startDate">
+                        {{ print .startDate}}
+                        </span>
+                        <span class="endDate">
+                        - {{ print .endDate}}
+                        </span>
+                     </div>
+                  </div>
+                  <div class="website">
+                     <a href= "{{ print .url}}" >{{print .url}}</a>
+                  </div>
+                  <div class="position">
+                     {{print .position}}
+                  </div>
+                  <div class="summary">
+                     <p>{{print .summary}}</p>
+                  </div>
+                  <h5>Responsibilities:</h5>
+                  <ul class="highlights">
+                     <li>{{print .highlights}}</li>
+                  </ul>
+               </div>
+            </section>
+         </section>
+         {{ end }}
+         {{ range $.Site.Data.resume.volunteer }}
+         <section id="volunteer">
+            <h3>Volunteer</h3>
+            <section>
+               <div class="item">
+                  <div class="row">
+                     <div class="name">
+                        {{print .organization}}
+                     </div>
+                     <div class="date">
+                        <span class="startDate">
+                        {{print .startDate}}
+                        </span>
+                        <span class="endDate">
+                        - {{print .endDate}}
+                        </span>
+                     </div>
+                  </div>
+                  <div class="website">
+                     <a href="{{print .url}}">{{print .url}}</a>
+                  </div>
+                  <div class="position">
+                     {{print .position}}
+                  </div>
+                  <div class="summary">
+                     <p>{{print .summary}}</p>
+                  </div>
+                  <h5>Responsibilities:</h5>
+                  <ul class="highlights">
+                     <li>{{print .highlights}}</li>
+                  </ul>
+               </div>
+            </section>
+         </section>
+         {{end}}
+         {{ range $.Site.Data.resume.awards }}
+         <section id="awards">
+            <h3>Awards</h3>
+            <section>
+               <div class="item">
+                  <div class="row">
+                     <div class="title">
+                        {{print .title}}
+                     </div>
+                     <div class="date">
+                        <span>
+                        {{print .date}}
+                        </span>
+                     </div>
+                  </div>
+                  <div class="awarder">
+                     {{print .awarder}}
+                  </div>
+                  <div class="summary">
+                     <p>{{print .summary}}</p>
+                  </div>
+               </div>
+            </section>
+         </section>
+         {{end}}
+         {{ range $.Site.Data.resume.publications }}
+         <section id="publications">
+            <h3>Publications</h3>
+            <section>
+               <div class="item">
+                  <div class="row">
+                     <div class="name">
+                        {{print .name}}
+                     </div>
+                     <div class="date">
+                        <span>
+                        {{print .releaseDate}}
+                        </span>
+                     </div>
+                  </div>
+                  <div class="website">
+                     <a href="{{print .url}}">{{print .url}}</a>
+                  </div>
+                  <div class="publisher">
+                     {{print .publisher}}
+                  </div>
+                  <div class="summary">
+                     <p>{{print .summary}}</p>
+                  </div>
+               </div>
+            </section>
+         </section>
+         {{end}}
+         {{ range $.Site.Data.resume.skills }}
+         <section id="skills">
+            <h3>Skills</h3>
+            <section>
+               <div class="item">
+                  <div class="name">
+                     {{print .name}}
+                  </div>
+                  <ul class="keywords">
+                     <li>{{print .keyword}}</li>
+                  </ul>
+               </div>
+            </section>
+         </section>
+         {{end}}
+         <section id="languages">
+            <h3>Languages</h3>
+            <section>
+               {{ range $.Site.Data.resume.languages }}
+               <div class="item">
+                  <div class="language">
+                     {{print .language}}
+                  </div>
+                  <div class="fluency">
+                     <em>{{print .score}}</em>
+                  </div>
+               </div>
+               {{end}}
+            </section>
+         </section>
+         <section id="interests">
+            <h3>Interests</h3>
+            <section>
+               {{ range $.Site.Data.resume.interests }}
+               <div class="name">
+                  {{print .name}}
+               </div>
+               {{end}}		
+            </section>
+         </section>
+         {{ range $.Site.Data.resume.references }}
+         <section id="references">
+            <h3>References</h3>
+            <section>
+               <div class="item">
+                  <blockquote class="reference">
+                     {{print .reference}}
+                  </blockquote>
+                  <div class="name">
+                     — {{print .name}}, {{print .position}}, {{print .company}}
+                  </div>
+               </div>
+            </section>
+         </section>
+         {{end}}
+         <section id="contacts">
+            <div class="location item">
+               <div class="block">
+                  <script>
+                     getReverseGeocodingData({{.Site.Data.resume.core.currentLocation.lat}},{{.Site.Data.resume.core.currentLocation.long}});
+                  </script>
+                  <span class="address" id="addr"></span>
+               </div>
+            </div>
+            <div class="contacts item">
+               <div class="block">
+                  <span class="email">{{.Site.Data.resume.core.email}}</span>
+               </div>
+               <div class="block">
+                  <span class="phone">{{.Site.Data.resume.core.phone}}</span>
+               </div>
+            </div>
+            <div class="site item">
+               <div class="block">
+                  <a href="{{.Site.Data.resume.core.url}}" class="website">{{.Site.Data.resume.core.url}}</a>
+               </div>
+            </div>
+         </section>
+      </div>
+   </body>
+</html>
